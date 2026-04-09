@@ -9,3 +9,10 @@
  **/
 
 //BUILDIN_DEF(example,""),
+/* Author: [royrdev] */
+BUILDIN_DEF(skillselectmenu,"*"),
+BUILDIN_DEF(skillselectmenuarray,"r"),
+BUILDIN_DEF(getskillname,"v"),
+BUILDIN_DEF(getskilldesc,"v"),
+BUILDIN_DEF(getplagiarizedskill,"?"),
+BUILDIN_DEF(getplagiarizedskilllv,"?"),

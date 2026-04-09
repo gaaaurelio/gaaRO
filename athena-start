@@ -69,6 +69,7 @@ watch_serv(){
 			get_status ${i}
 			#echo "Echo id of $i is ${PSRUN}"
 			if [ -z ${PSRUN} ]; then
+				/opt/Argonarok/notify.sh "Servidor '$i' caiu! Reiniciando..."
 				count=$((count+1))
 				#echo "fifo=$FIFO"
 				echo "server '$i' is down"

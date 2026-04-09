@@ -221,6 +221,133 @@ function	script	F_GetRDMOPT_Name	{
 		case 200: return "Dragon monster resistance";
 		case 201: return "Long range physical attack";
 		case 202: return "Long range physical damage";
+		// Missing official options
+		case 203: return "Dragon monster resistance (weapon)";
+		case 206: return "Player (Human) resistance";
+		case 207: return "Player (Doram) resistance";
+		case 208: return "Damage vs Player (Human)";
+		case 209: return "Damage vs Player (Doram)";
+		case 210: return "Magic damage vs Player (Human)";
+		case 211: return "Magic damage vs Player (Doram)";
+		case 212: return "Critical vs Player (Human)";
+		case 213: return "Critical vs Player (Doram)";
+		case 214: return "Ignore DEF vs Player (Human)";
+		case 215: return "Ignore DEF vs Player (Doram)";
+		case 216: return "Ignore MDEF vs Player (Human)";
+		case 217: return "Ignore MDEF vs Player (Doram)";
+		case 218: return "Reflect damage";
+		case 219: return "Melee damage";
+		case 220: return "Melee damage resistance";
+		case 221: return "Magic skill damage (Neutral)";
+		case 222: return "Magic skill damage (Water)";
+		case 223: return "Magic skill damage (Earth)";
+		case 224: return "Magic skill damage (Fire)";
+		case 225: return "Magic skill damage (Wind)";
+		case 226: return "Magic skill damage (Poison)";
+		case 227: return "Magic skill damage (Holy)";
+		case 228: return "Magic skill damage (Shadow)";
+		case 229: return "Magic skill damage (Ghost)";
+		case 230: return "Magic skill damage (Undead)";
+		case 231: return "Magic skill damage (All elements)";
+		case 232: return "EXP from Formless monsters";
+		case 233: return "EXP from Undead monsters";
+		case 234: return "EXP from Brute monsters";
+		case 235: return "EXP from Plant monsters";
+		case 236: return "EXP from Insect monsters";
+		// Hyllok
+		case 271: return "Autocast Shadow Soul";
+		case 272: return "Autocast Suffragium";
+		case 273: return "Autocast Mystical Amplification";
+		case 274: return "Autocast Attention Concentrate";
+		case 275: return "Autocast Radius";
+		case 276: return "Autocast Fairy Soul";
+		case 277: return "Autocast Kyrie Eleison (when hit)";
+		case 278: return "Autocast Heal (when hit)";
+		case 279: return "Autocast Angelus (when hit)";
+		case 280: return "Autocast Safety Wall (when hit)";
+		case 281: return "Autocast Golem Soul (when hit)";
+		case 282: return "Inflict Curse (when hit)";
+		case 283: return "Inflict Poison (when hit)";
+		case 284: return "Inflict Bleeding (when hit)";
+		case 285: return "Inflict Stun (when hit)";
+		case 286: return "Inflict Silence (when hit)";
+		case 287: return "Autocast Sonic Blow";
+		case 288: return "Autocast Holy Cross";
+		case 289: return "Autocast Pierce";
+		case 290: return "Autocast Fire Bolt";
+		case 291: return "Autocast Cold Bolt";
+		case 292: return "Autocast Lightning Bolt";
+		case 293: return "Autocast Earth Spike";
+		case 294: return "Autocast Hammer Fall";
+		case 295: return "Autocast Holy Light";
+		case 296: return "Autocast Triple Attack";
+		case 297: return "Autocast Demonstration";
+		case 298: return "Autocast Desperado";
+		case 299: return "Autocast Sprinkle Sand";
+		case 300: return "Autocast Venom Splasher";
+		case 301: return "Autocast Full Buster";
+		case 302: return "Autocast Throw Kunai";
+		case 303: return "Autocast Warmth of the Moon";
+		case 304: return "Autocast Decrease Agility (when hit)";
+		case 305: return "Autocast Endure (when hit)";
+		case 306: return "Autocast Full Chemical Protection (when hit)";
+		case 307: return "Autocast Thorn Trap (when hit)";
+		case 308: return "Autocast Fire Bolt (magic)";
+		case 309: return "Autocast Cold Bolt (magic)";
+		case 310: return "Autocast Lightning Bolt (magic)";
+		case 311: return "Autocast Earth Spike (magic)";
+		case 312: return "Autocast Caprice";
+		case 313: return "Autocast Erase Cutter";
+		case 314: return "Autocast Recognized Spell";
+		case 315: return "Autocast Magic Decoy";
+		// Stat Exchange
+		case 316: return "STR → VIT";
+		case 317: return "STR → AGI";
+		case 318: return "STR → INT";
+		case 319: return "STR → DEX";
+		case 320: return "STR → LUK";
+		case 321: return "VIT → STR";
+		case 322: return "VIT → AGI";
+		case 323: return "VIT → INT";
+		case 324: return "VIT → DEX";
+		case 325: return "VIT → LUK";
+		case 326: return "AGI → STR";
+		case 327: return "AGI → VIT";
+		case 328: return "AGI → INT";
+		case 329: return "AGI → DEX";
+		case 330: return "AGI → LUK";
+		case 331: return "INT → STR";
+		case 332: return "INT → VIT";
+		case 333: return "INT → AGI";
+		case 334: return "INT → DEX";
+		case 335: return "INT → LUK";
+		case 336: return "DEX → STR";
+		case 337: return "DEX → VIT";
+		case 338: return "DEX → AGI";
+		case 339: return "DEX → INT";
+		case 340: return "DEX → LUK";
+		case 341: return "LUK → STR";
+		case 342: return "LUK → VIT";
+		case 343: return "LUK → AGI";
+		case 344: return "LUK → INT";
+		case 345: return "LUK → DEX";
+		case 346: return "Reflect melee damage";
+		case 347: return "Reflect ranged damage";
+		case 348: return "Reflect magic damage";
+		case 349: return "Double Attack chance";
+		case 350: return "Steal success rate";
+		case 351: return "No Gemstone required";
+		case 352: return "Perfect Hide";
+		case 353: return "Attack range";
+		case 354: return "Skill damage";
+		case 355: return "No cast cancel";
+		case 356: return "HP gain by killing mobs (melee)";
+		case 357: return "HP gain by killing mobs (ranged)";
+		case 358: return "HP gain by killing mobs (magic)";
+		case 359: return "SP gain by killing mobs (melee)";
+		case 360: return "SP gain by killing mobs (ranged)";
+		case 361: return "SP gain by killing mobs (magic)";
+		case 362: return "Splash range";
 		default: return "Unknow Random Option";
 	}
 }
@@ -433,6 +560,142 @@ function	script	F_GetRDMOPT_Value	{
 		case 200: return "+"+getarg(1)+"%";
 		case 201: return "+"+getarg(1)+"%";
 		case 202: return "-"+getarg(1)+"%";
+		case 203:
+		case 206:
+		case 207:
+		case 208:
+		case 209:
+		case 210:
+		case 211:
+		case 212:
+		case 213:
+		case 214:
+		case 215:
+		case 216:
+		case 217:
+		case 218:
+		case 219:
+		case 220:
+		case 221:
+		case 222:
+		case 223:
+		case 224:
+		case 225:
+		case 226:
+		case 227:
+		case 228:
+		case 229:
+		case 230:
+		case 231:
+		case 232:
+		case 233:
+		case 234:
+		case 235:
+		case 236:
+			return "+"+getarg(1)+"%";
+		// Hyllok
+		case 271:
+		case 272:
+		case 273:
+		case 274:
+		case 275:
+		case 276:
+		case 277:
+		case 278:
+		case 279:
+		case 280:
+		case 281:
+		case 287:
+		case 288:
+		case 289:
+		case 290:
+		case 291:
+		case 292:
+		case 293:
+		case 294:
+		case 295:
+		case 296:
+		case 297:
+		case 298:
+		case 299:
+		case 300:
+		case 301:
+		case 302:
+		case 303:
+		case 304:
+		case 305:
+		case 306:
+		case 307:
+		case 308:
+		case 309:
+		case 310:
+		case 311:
+		case 312:
+		case 313:
+		case 314:
+		case 315:
+			return "+"+getarg(1)+"%";
+		case 282:
+		case 283:
+		case 284:
+		case 285:
+		case 286:
+			return "+"+getarg(1)+"%";
+		// Stat Exchange (não usa %)
+		case 316:
+		case 317:
+		case 318:
+		case 319:
+		case 320:
+		case 321:
+		case 322:
+		case 323:
+		case 324:
+		case 325:
+		case 326:
+		case 327:
+		case 328:
+		case 329:
+		case 330:
+		case 331:
+		case 332:
+		case 333:
+		case 334:
+		case 335:
+		case 336:
+		case 337:
+		case 338:
+		case 339:
+		case 340:
+		case 341:
+		case 342:
+		case 343:
+		case 344:
+		case 345:
+			return getarg(1);
+		case 346:
+		case 347:
+		case 348:
+		case 349:
+			return "+"+getarg(1)+"%";
+		case 350:
+			return "+"+getarg(1)+"%";
+		case 351:
+		case 352:
+			return "";
+		case 353:
+		case 356:
+		case 357:
+		case 358:
+		case 359:
+		case 360:
+		case 361:
+		case 362:
+			return "+"+getarg(1);
+		case 354:
+			return "+"+getarg(1)+"%";
+		case 355:
+			return "";
 		default: return "Unknow Value";
 	}
 }
