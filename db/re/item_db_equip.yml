@@ -58199,37 +58199,37 @@ Body:
       bonus bCritical,3;
       bonus bCritAtkRate,10;
   - Id: 9001
-    AegisName: Poring_Egg
+    AegisName: Poring_Egg_
     Name: Poring Egg
     Type: Petegg
     Buy: 20
   - Id: 9002
-    AegisName: Drops_Egg
+    AegisName: Drops_Egg_
     Name: Drops Egg
     Type: Petegg
     Buy: 20
   - Id: 9003
-    AegisName: Poporing_Egg
+    AegisName: Poporing_Egg_
     Name: Poporing Egg
     Type: Petegg
     Buy: 20
   - Id: 9004
-    AegisName: Lunatic_Egg
+    AegisName: Lunatic_Egg_
     Name: Lunatic Egg
     Type: Petegg
     Buy: 20
   - Id: 9005
-    AegisName: Picky_Egg
+    AegisName: Picky_Egg_
     Name: Picky Egg
     Type: Petegg
     Buy: 20
   - Id: 9006
-    AegisName: Chonchon_Egg
+    AegisName: Chonchon_Egg_
     Name: Chonchon Egg
     Type: Petegg
     Buy: 20
   - Id: 9007
-    AegisName: Steel_Chonchon_Egg
+    AegisName: Steel_Chonchon_Egg_
     Name: Steel Chonchon Egg
     Type: Petegg
     Buy: 20
@@ -58239,52 +58239,52 @@ Body:
     Type: Petegg
     Buy: 20
   - Id: 9009
-    AegisName: Savage_Bebe_Egg
+    AegisName: Savage_Bebe_Egg_
     Name: Savage Babe Egg
     Type: Petegg
     Buy: 20
   - Id: 9010
-    AegisName: Baby_Desert_Wolf_Egg
+    AegisName: Baby_Desert_Wolf_Egg_
     Name: Baby Desert Wolf Egg
     Type: Petegg
     Buy: 20
   - Id: 9011
-    AegisName: Rocker_Egg
+    AegisName: Rocker_Egg_
     Name: Rocker Egg
     Type: Petegg
     Buy: 20
   - Id: 9012
-    AegisName: Spore_Egg
+    AegisName: Spore_Egg_
     Name: Spore Egg
     Type: Petegg
     Buy: 20
   - Id: 9013
-    AegisName: Poison_Spore_Egg
+    AegisName: Poison_Spore_Egg_
     Name: Poison Spore Egg
     Type: Petegg
     Buy: 20
   - Id: 9014
-    AegisName: PecoPeco_Egg
+    AegisName: PecoPeco_Egg_
     Name: Peco Peco Egg
     Type: Petegg
     Buy: 20
   - Id: 9015
-    AegisName: Smokie_Egg
+    AegisName: Smokie_Egg_
     Name: Smokie Egg
     Type: Petegg
     Buy: 20
   - Id: 9016
-    AegisName: Yoyo_Egg
+    AegisName: Yoyo_Egg_
     Name: Yoyo Egg
     Type: Petegg
     Buy: 20
   - Id: 9017
-    AegisName: Orc_Warrior_Egg
+    AegisName: Orc_Warrior_Egg_
     Name: Orc Warrior Egg
     Type: Petegg
     Buy: 20
   - Id: 9018
-    AegisName: Munak_Egg
+    AegisName: Munak_Egg_
     Name: Munak Egg
     Type: Petegg
     Buy: 20
@@ -58294,12 +58294,12 @@ Body:
     Type: Petegg
     Buy: 20
   - Id: 9020
-    AegisName: Sohee_Egg
+    AegisName: Sohee_Egg_
     Name: Sohee Egg
     Type: Petegg
     Buy: 20
   - Id: 9021
-    AegisName: Isis_Egg
+    AegisName: Isis_Egg_
     Name: Isis Egg
     Type: Petegg
     Buy: 20
@@ -58319,7 +58319,7 @@ Body:
     Type: Petegg
     Buy: 20
   - Id: 9025
-    AegisName: Bongun_Egg
+    AegisName: Bongun_Egg_
     Name: Bongun Egg
     Type: Petegg
     Buy: 20
@@ -58329,7 +58329,7 @@ Body:
     Type: Petegg
     Buy: 20
   - Id: 9027
-    AegisName: Alice_Egg
+    AegisName: Alice_Egg_
     Name: Alice Egg
     Type: Petegg
     Buy: 20
@@ -58346,7 +58346,7 @@ Body:
     Type: Petegg
     Buy: 20
   - Id: 9030
-    AegisName: Chung_E_Egg
+    AegisName: Chung_E_Egg_
     Name: Green Maiden Egg
     Type: Petegg
     Buy: 20
@@ -58401,17 +58401,17 @@ Body:
     Type: Petegg
     Buy: 20
   - Id: 9041
-    AegisName: Leaf_Cat_Egg
+    AegisName: Leaf_Cat_Egg_
     Name: Leaf Cat Egg
     Type: Petegg
     Buy: 20
   - Id: 9042
-    AegisName: Loli_Ruri_Egg
+    AegisName: Loli_Ruri_Egg_
     Name: Loli Ruri Egg
     Type: Petegg
     Buy: 20
   - Id: 9043
-    AegisName: Marionette_Egg
+    AegisName: Marionette_Egg_
     Name: Marionette Egg
     Type: Petegg
     Buy: 20
@@ -58421,7 +58421,7 @@ Body:
     Type: Petegg
     Buy: 20
   - Id: 9045
-    AegisName: Whisper_Egg
+    AegisName: Whisper_Egg_
     Name: Whisper Egg
     Type: Petegg
     Buy: 20
@@ -58441,12 +58441,12 @@ Body:
     Type: Petegg
     Buy: 20
   - Id: 9049
-    AegisName: Dullahan_Egg
+    AegisName: Dullahan_Egg_
     Name: Dullahan Egg
     Type: Petegg
     Buy: 20
   - Id: 9050
-    AegisName: Medusa_Egg
+    AegisName: Medusa_Egg_
     Name: Medusa Egg
     Type: Petegg
     Buy: 20
@@ -58456,12 +58456,12 @@ Body:
     Type: Petegg
     Buy: 20
   - Id: 9052
-    AegisName: Incubus_Egg
+    AegisName: Incubus_Egg_
     Name: Incubus Egg
     Type: Petegg
     Buy: 20
   - Id: 9053
-    AegisName: Golem_Egg
+    AegisName: Golem_Egg_
     Name: Golem Egg
     Type: Petegg
     Buy: 20
@@ -58471,12 +58471,12 @@ Body:
     Type: Petegg
     Buy: 20
   - Id: 9055
-    AegisName: Succubus_Egg
+    AegisName: Succubus_Egg_
     Name: Succubus Egg
     Type: Petegg
     Buy: 20
   - Id: 9056
-    AegisName: Imp_Egg
+    AegisName: Imp_Egg_
     Name: Imp Egg
     Type: Petegg
     Buy: 20
@@ -58508,7 +58508,7 @@ Body:
     Type: Petegg
     Buy: 20
   - Id: 9061
-    AegisName: Marin_Egg
+    AegisName: Marin_Egg_
     Name: Marin Egg
     Type: Petegg
     Buy: 20
@@ -58683,7 +58683,7 @@ Body:
     Type: Petegg
     Buy: 20
   - Id: 9102
-    AegisName: Mummy_Egg
+    AegisName: Mummy_Egg_
     Name: Mummy Egg
     Type: Petegg
     Buy: 20
@@ -58768,7 +58768,7 @@ Body:
     Type: Petegg
     Buy: 20
   - Id: 9120
-    AegisName: Aliza_EGG
+    AegisName: Aliza_EGG_
     Name: Aliza Egg
     Type: Petegg
     Buy: 20

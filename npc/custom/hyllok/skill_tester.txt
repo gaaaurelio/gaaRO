@@ -1,0 +1,25 @@
+prontera, 150,184,4	script	Skill Master	4_M_YOYOROGUE,{
+	mes "[Skill Tester]";
+	mes "Digite o ID da skill:";
+	input .@skill_id;
+
+	mes "Digite o nível:";
+	input .@skill_lv;
+
+	if (select("Confirmar:Cancelar") == 2) close;
+
+	//  GARANTE RID
+	if (!playerattached()) {
+		dispbottom "Erro: jogador não anexado.";
+		end;
+	}
+
+	// DEBUG
+	dispbottom "Aplicando skill ID "+.@skill_id+" nível "+.@skill_lv;
+
+	// CONCEDE SKILL
+	skill 15,5,2;
+
+	dispbottom "Skill aplicada!";
+	close;
+}

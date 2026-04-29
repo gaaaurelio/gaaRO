@@ -3150,25 +3150,25 @@ Body:
 #         bonus bRes,5;
 #      }
 #
-  - Mob: HORNET
-    EggItem: aegis_9155
-    FoodItem: Apple_Pudding
-    Fullness: 2   # unknown
-    HungryDelay: 120   # unknown
-    IntimacyFed: 15   # unknown
-    CaptureRate: 0   # unknown
-    SpecialPerformance: false   # unknown
-    Script: >
-      .@i = getpetinfo(PETINFO_INTIMATE);
-
-      if (.@i >= PET_INTIMATE_LOYAL) {
-         bonus2 bMagicAtkEle,Ele_Wind,2;
-         bonus bVariableCastrate,-2;
-      }
-      else if (.@i >= PET_INTIMATE_CORDIAL) {
-         bonus2 bMagicAtkEle,Ele_Wind,1;
-         bonus bVariableCastrate,-1;
-      }
+#  - Mob: HORNET
+#    EggItem: aegis_9155
+#    FoodItem: Apple_Pudding
+#    Fullness: 2   # unknown
+#    HungryDelay: 120   # unknown
+#    IntimacyFed: 15   # unknown
+#    CaptureRate: 0   # unknown
+#    SpecialPerformance: false   # unknown
+#    Script: >
+#      .@i = getpetinfo(PETINFO_INTIMATE);
+#
+#      if (.@i >= PET_INTIMATE_LOYAL) {
+#         bonus2 bMagicAtkEle,Ele_Wind,2;
+#         bonus bVariableCastrate,-2;
+#      }
+#      else if (.@i >= PET_INTIMATE_CORDIAL) {
+#         bonus2 bMagicAtkEle,Ele_Wind,1;
+#         bonus bVariableCastrate,-1;
+#      }
 #    Evolution:
 #      - Target: GIANT_HONET2
 #        ItemRequirements:
