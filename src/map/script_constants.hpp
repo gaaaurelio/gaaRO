@@ -775,6 +775,8 @@
 	export_constant2("bSkillAtk",SP_SKILL_ATK);
 	export_constant2("bUnstripable",SP_UNSTRIPABLE);
 	export_constant2("bAutoSpellOnSkill",SP_AUTOSPELL_ONSKILL);
+	export_constant2("bSkillChain", SP_SKILL_CHAIN);
+	export_constant2("bAreaSkill", SP_AREASKILL);
 	export_constant2("bSPGainValue",SP_SP_GAIN_VALUE);
 	export_constant2("bHPRegenRate",SP_HP_REGEN_RATE);
 	export_constant2("bHPLossRate",SP_HP_LOSS_RATE);
@@ -2004,6 +2006,8 @@
 	export_constant(SC_WATER_CHARM_POWER);
 	export_constant(SC_WIND_CHARM_POWER);
 	export_constant(SC_GROUND_CHARM_POWER);
+	export_constant(SC_HEALING_AURA);
+	export_constant(SC_CHAINLINK);
 
 /// Do not modify code below this, until the end of the API hook, since it will be automatically generated again
 /// @APIHOOK_START(EFST_CONST)
@@ -10201,6 +10205,7 @@
 	export_constant(HAT_EF_C_CLB_GAT_DOC);
 	export_constant(HAT_EF_C_EYE_OF_NECROMANCER);
 	export_constant(HAT_EF_C_JAOW_PIRUN);
+	export_constant(HAT_EF_MIC);
 
 	/* pet catch */
 	export_constant(PET_CATCH_UNIVERSAL_NO_BOSS);

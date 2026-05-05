@@ -45105,7 +45105,7 @@ Body:
       AllowOnMado: true
     Range: 1
     Hit: Multi_Hit
-    HitCount: 5
+    HitCount: 2 #5
     Element: Weapon
     SplashArea:
       - Level: 1
@@ -45117,17 +45117,17 @@ Body:
       - Level: 4
         Area: 1
       - Level: 5
-        Area: 2
+        Area: 1
       - Level: 6
-        Area: 2
+        Area: 1
       - Level: 7
-        Area: 2
+        Area: 1
       - Level: 8
-        Area: 2
+        Area: 1
       - Level: 9
-        Area: 3
+        Area: 1
       - Level: 10
-        Area: 3
+        Area: 1
     AfterCastActDelay: 700
     Cooldown: 500
     Requires:

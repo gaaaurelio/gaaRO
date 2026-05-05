@@ -302,6 +302,18 @@ struct s_autospell {
 	bool lock;  // bAutoSpellOnSkill: blocks autospell from triggering again, while being executed
 };
 
+struct s_areaskill {  
+    uint16 skill_id;  
+    uint8  area_size;  // half-range: area_size cells in each direction  
+    short  chance;     // 0-1000 (per mille) or 0-100 (percent) — match rAthena convention  
+};
+
+struct s_skill_chain {  
+    int16 rate;       ///< Chance in permille (1000 = 100%)  
+    t_itemid card_id;  
+    bool lock;        ///< Prevents re-triggering during chain execution  
+};
+
 /// AddEff and AddEff2 bonus struct
 struct s_addeffect {
 	enum sc_type sc; /// SC type/effect
@@ -473,6 +485,7 @@ public:
 		uint32 bonus_coma : 1;
 		uint32 no_mado_fuel : 1; // Disable Magic_Gear_Fuel consumption [Secret]
 		uint32 no_walk_delay : 1;
+		unsigned areaskill_active : 1; // prevents recursive AoE trigger
 	} special_state;
 	uint32 login_id1, login_id2;
 	uint64 class_;	//This is the internal job ID used by the map server to simplify comparisons/queries/etc. [Skotlex]
@@ -606,6 +619,8 @@ public:
 	// zeroed arrays end here.
 
 	std::vector<s_autospell> autospell, autospell2, autospell3;
+	std::vector<s_skill_chain> skill_chain;
+	std::vector<s_areaskill> areaskill;
 	std::vector<s_addeffect> addeff, addeff_atked;
 	std::vector<s_addeffectonskill> addeff_onskill;
 	std::vector<s_item_bonus> skillatk, skillusesprate, skillusesp, skillheal, skillheal2, skillblown, skillcastrate, skillfixcastrate, subskill, skillcooldown, skillfixcast,

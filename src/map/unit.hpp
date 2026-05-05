@@ -40,6 +40,7 @@ struct unit_data {
 	bool stepaction; //Action should be executed on step [Playtester]
 	int32 steptimer; //Timer that triggers the action [Playtester]
 	uint16 stepskill_id, stepskill_lv; //Remembers skill that should be casted on step [Playtester]
+	uint16 last_skill_id, last_skill_lv;
 	t_tick attackabletime;
 	t_tick canact_tick;
 	t_tick canmove_tick;

@@ -63,6 +63,7 @@
 #include "storage.hpp"
 #include "unit.hpp" // unit_stop_attack(), unit_stop_walking()
 #include "vending.hpp" // struct s_vending
+#include "voice_bridge.hpp"
 
 using namespace rathena;
 
@@ -2302,6 +2303,7 @@ bool pc_authok(map_session_data *sd, uint32 login_id2, time_t expiration_time, i
 
 	// Request all registries (auth is considered completed whence they arrive)
 	intif_request_registry(sd,7);
+	voice_bridge_send_map_pos(sd);
 	return true;
 }
 
@@ -4460,6 +4462,19 @@ void pc_bonus(map_session_data *sd,int32 type,int32 val)
 			if (sd->state.lr_flag != LR_FLAG_ARROW)
 				sd->bonus.itemsphealrate2 += val;
 			break;
+		case SP_SKILL_CHAIN:  
+    		if (sd->state.lr_flag != LR_FLAG_ARROW) {  
+        	if (sd->skill_chain.size() >= MAX_PC_BONUS) {  
+            	ShowWarning("pc_bonus bSkillChain: Reached max (%d) entries!\n", MAX_PC_BONUS);  
+            	break;  
+        }  
+        s_skill_chain entry = {};  
+        entry.rate = cap_value((int16)val, 0, 1000);  
+        entry.card_id = current_equip_card_id;  
+        entry.lock = false;  
+        sd->skill_chain.push_back(entry);  
+    }  
+    break;
 		default:
 			if (current_equip_combo_pos > 0) {
 				ShowWarning("pc_bonus: unknown bonus type %d %d in a combo with item #%u\n", type, val, sd->inventory_data[pc_checkequip( sd, current_equip_combo_pos )]->nameid);
@@ -5242,6 +5257,28 @@ void pc_bonus3(map_session_data *sd,int32 type,int32 type2,int32 type3,int32 val
 		sd->norecover_state_race[type2].rate = type3;
 		sd->norecover_state_race[type2].tick = val;
 		break;
+
+	case SP_AREASKILL:  
+		if (sd->state.lr_flag != LR_FLAG_ARROW) {
+			for (auto &entry : sd->areaskill) {
+				if (entry.skill_id != (uint16)type2)
+					continue;
+
+				entry.area_size = (uint8)type3;
+				entry.chance = (short)val;
+				return;
+			}
+
+			if (sd->areaskill.size() < MAX_PC_BONUS) {
+				s_areaskill entry = {};
+				entry.skill_id = (uint16)type2;
+				entry.area_size = (uint8)type3;
+				entry.chance = (short)val;
+				sd->areaskill.push_back(entry);
+			}
+		}
+		break;
+
 	default:
 		if (current_equip_combo_pos > 0) {
 			ShowWarning("pc_bonus3: unknown bonus type %d %d %d %d in a combo with item #%u\n", type, type2, type3, val, sd->inventory_data[pc_checkequip( sd, current_equip_combo_pos )]->nameid);
@@ -5289,6 +5326,18 @@ void pc_bonus4(map_session_data *sd,int32 type,int32 type2,int32 type3,int32 typ
 			pc_bonus_autospell_onskill(sd->autospell3, type2, type3, type4, val, current_equip_card_id, target ? AUTOSPELL_FORCE_TARGET : AUTOSPELL_FORCE_SELF);
 		}
 		break;
+
+	case SP_AREASKILL:  
+    	if (sd->state.lr_flag != LR_FLAG_ARROW) {  
+        	if (sd->areaskill.size() < MAX_PC_BONUS) {  
+            s_areaskill entry = {};  
+            entry.skill_id  = (uint16)type2;  
+            entry.area_size = (uint8)type3;  
+            entry.chance    = (short)val;  
+            sd->areaskill.push_back(entry);  
+        }  
+    }  
+    break;
 
 	case SP_ADDEFF: // bonus4 bAddEff,eff,n,y,t;
 		PC_BONUS_CHK_SC(type2,SP_ADDEFF);

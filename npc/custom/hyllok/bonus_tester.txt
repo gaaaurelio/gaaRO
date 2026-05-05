@@ -1,0 +1,23 @@
+prontera, 150,184,4	script	Skill Master	4_M_YOYOROGUE,{
+	mes "[Tester Bonus Script]";
+	mes "Escolha um bônus para testar:";
+	next;
+
+	switch(select(
+		"Testar bonus",
+		"Testar skill"
+	)) {
+
+	case 1:
+		bonus_script "bonus3 bAutoSpell,9001,5,1000;",6000000;
+		mes "Bonus aplicado";
+		break;
+
+	case 2:
+		skill 9001,5,0;
+		mes "Skill aplicada";
+		break;
+	}
+
+	close;
+}

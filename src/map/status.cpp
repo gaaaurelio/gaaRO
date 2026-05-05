@@ -122,6 +122,7 @@ static uint32 status_calc_maxhp_pc( map_session_data& sd, uint32 vit );
 static uint32 status_calc_maxsp_pc( map_session_data& sd, uint32 int_ );
 static uint32 status_calc_maxap_pc( map_session_data& sd );
 static int32 status_get_sc_interval(enum sc_type type);
+
 static bool status_change_start_post_delay(block_list* src, block_list* bl, sc_type type, int32 val1, int32 val2, int32 val3, int32 val4, int32 tick, uint8 flag);
 
 static bool status_change_isDisabledOnMap_(sc_type type, bool mapIsVS, bool mapIsPVP, bool mapIsGVG, bool mapIsBG, uint32 mapZone, bool mapIsTE);
@@ -4185,6 +4186,8 @@ int32 status_calc_pc_sub(map_session_data* sd, uint8 opt)
 	sd->autospell.clear();
 	sd->autospell2.clear();
 	sd->autospell3.clear();
+	sd->skill_chain.clear();
+	sd->areaskill.clear();
 	sd->addeff.clear();
 	sd->addeff_atked.clear();
 	sd->addeff_onskill.clear();
@@ -10505,6 +10508,31 @@ TIMER_FUNC(status_change_start_timer) {
 	return 0;
 }
 
+// File-scope in status.cpp, before status_change_start:  
+static bool s_chainlink_propagating = false; // recursion guard  
+  
+static int32 chainlink_sc_propagate_sub(block_list *peer, va_list ap) {  
+    block_list *src   = va_arg(ap, block_list*);  
+    block_list *skip  = va_arg(ap, block_list*);  
+    int32 group_id    = va_arg(ap, int32);  
+    sc_type type      = (sc_type)va_arg(ap, int32);  
+    int32 rate        = va_arg(ap, int32);  
+    int32 v1          = va_arg(ap, int32);  
+    int32 v2          = va_arg(ap, int32);  
+    int32 v3          = va_arg(ap, int32);  
+    int32 v4          = va_arg(ap, int32);  
+    t_tick duration   = va_arg(ap, t_tick);  
+  
+    if (peer == skip || status_isdead(*peer)) return 0;  
+    status_change *psc = status_get_sc(peer);  
+    if (!psc) return 0;  
+    struct status_change_entry *psce = psc->getSCE(SC_CHAINLINK);  
+    if (!psce || psce->val2 != group_id) return 0;  
+  
+    status_change_start(src, peer, type, rate, v1, v2, v3, v4, duration, SCSTART_NOAVOID);  
+    return 1;  
+}
+
 /**
  * Applies SC defense to a given status change
  * This function also determines whether or not the status change will be applied
@@ -10606,6 +10634,10 @@ bool status_change_start(block_list* src, block_list* bl, sc_type type, int32 ra
 
 	// Type-specific checks that need to happen before the delay
 	switch (type) {
+		case SC_HEALING_AURA:
+			// val1 = skill_lv, val2 = caster_id, val3 = group_id, val4 = 0
+			// No stat changes; purely used for unit group tracking
+			break;
 		case SC_STONE:
 		case SC_STONEWAIT:
 		case SC_FREEZE:
@@ -10663,6 +10695,30 @@ bool status_change_start(block_list* src, block_list* bl, sc_type type, int32 ra
 
 	add_timer(gettick() + delay, status_change_start_timer, index, 0);
 
+    // --- CUSTOM CHAIN LINK: status propagation ---  
+    {  
+        static const sc_type propagated[] = {  
+            SC_SLEEP, SC_STUN, SC_FREEZE, SC_BURNING,  
+            SC_POISON, SC_STONE, SC_CURSE, SC_NONE  
+        };  
+        bool do_prop = false;  
+        for (int i = 0; propagated[i] != SC_NONE; i++)  
+            if (type == propagated[i]) { do_prop = true; break; }  
+  
+        if (do_prop && !s_chainlink_propagating) {  
+            status_change *bl_sc = status_get_sc(bl);  
+            struct status_change_entry *cl_sce = bl_sc ? bl_sc->getSCE(SC_CHAINLINK) : nullptr;  
+            if (cl_sce) {  
+                s_chainlink_propagating = true;  
+                map_foreachinallrange(chainlink_sc_propagate_sub, bl, 20, BL_MOB,  
+                    src, bl, cl_sce->val2, (int32)type, rate,  
+                    val1, val2, val3, val4, tick);  
+                s_chainlink_propagating = false;  
+            }  
+        }  
+    }  
+    // --- END CUSTOM CHAIN LINK ---
+	
 	// Assume success
 	return true;
 }
@@ -13793,6 +13849,18 @@ int32 status_change_clear(block_list* bl, int32 type)
 	return 1;
 }
 
+static int32 chainlink_cleanup_sub(block_list *peer, va_list ap) {  
+    block_list *skip = va_arg(ap, block_list*);  
+    int32 group_id   = va_arg(ap, int32);  
+    if (peer == skip) return 0;  
+    status_change *psc = status_get_sc(peer);  
+    if (!psc) return 0;  
+    struct status_change_entry *psce = psc->getSCE(SC_CHAINLINK);  
+    if (psce && psce->val2 == group_id)  
+        status_change_end(peer, SC_CHAINLINK);  
+    return 1;  
+}
+
 /**
  * End a specific status after checking
  * @param bl: Source of the status change [PC|MOB|HOM|MER|ELEM|NPC]
@@ -14403,6 +14471,30 @@ int32 status_change_end( block_list* bl, enum sc_type type, int32 tid ){
 			sc_start(bl,bl, SC_BLESSING_OF_M_C_DEBUFF, 100, 1, skill_get_time2(SH_BLESSING_OF_MYSTICAL_CREATURES, 1));
 			status_percent_change(bl,bl,0, 0, -100,1);
 			break;
+
+		case SC_HEALING_AURA: {
+			// Delete the unit group when the target loses the SC
+			std::shared_ptr<s_skill_unit_group> sg = skill_id2group(val3);
+			if (sg != nullptr)
+				skill_delunitgroup(sg);
+			break;
+		}
+		case SC_CHAINLINK: {  
+			// When any linked unit's SC ends, clean up the whole group  
+			// (only if this is the primary target dying/expiring)  
+			struct status_change_entry *sce_cl = sc->getSCE(SC_CHAINLINK);  
+			if (sce_cl && sce_cl->val1 == bl->id) {  
+				// This IS the primary target - end all peers  
+				int32 group_id = sce_cl->val2;  
+				map_foreachinallrange([](block_list *peer, va_list ap) -> int32 {  
+					// named function in production:  
+					return 0;  
+				}, bl, 20, BL_MOB);  
+				// Use a named sub:  
+				// map_foreachinallrange(chainlink_cleanup_sub, bl, 20, BL_MOB, bl, group_id);  
+			}  
+			break;  
+		}
 	}
 
 	// End statuses found in the EndOnEnd list.

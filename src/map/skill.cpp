@@ -106,6 +106,7 @@ static int32 skill_check_unit_range2 (block_list *bl, int32 x, int32 y, uint16 s
 static int32 skill_destroy_trap( block_list *bl, va_list ap );
 static int32 skill_check_condition_mob_master_sub (block_list *bl, va_list ap);
 static bool skill_check_condition_sc_required( map_session_data& sd, uint16 skill_id, s_skill_condition& require );
+static int32 chainlink_damage_sub(block_list *peer, va_list ap);
 
 // Use this function for splash skills that can't hit icewall when cast by players
 int32 splash_target(block_list* bl) {
@@ -1610,6 +1611,81 @@ int32 skill_additional_effect( block_list* src, block_list *bl, uint16 skill_id,
 	return 0;
 }
 
+static int skill_chain_find_target(block_list *bl, va_list ap)  
+{  
+    block_list *src = va_arg(ap, block_list *);  
+    block_list **found = va_arg(ap, block_list **);  
+  
+    if (status_isdead(*bl))  
+        return 0;  
+    if (!battle_check_target(src, bl, BCT_ENEMY))  
+        return 0;  
+  
+    *found = bl;  
+    return 1;  
+}  
+  
+void skill_chain_trigger(map_session_data *sd, uint16 skill_id, uint16 skill_lv)  
+{  
+    nullpo_retv(sd);  
+  
+    if (!skill_id || sd->skill_chain.empty())  
+        return;  
+  
+    block_list *src = sd;  
+    t_tick tick = gettick();  
+  
+    for (auto &it : sd->skill_chain) {  
+        if (it.lock)  
+            continue; // loop prevention  
+  
+        if (rnd() % 1000 >= it.rate)  
+            continue;  
+  
+        sd->state.autocast = 1;  
+        if (skill_isNotOk(skill_id, *sd)) {  
+            sd->state.autocast = 0;  
+            continue;  
+        }  
+        sd->state.autocast = 0;  
+  
+        // Find a nearby valid enemy within 7 cells  
+        block_list *tbl = nullptr;  
+        map_foreachinrange(skill_chain_find_target, src, 7, BL_MOB, src, &tbl);  
+  
+        if (tbl == nullptr)  
+            continue;  
+  
+        sd->state.autocast = 1;  
+        it.lock = true;  
+  
+        skill_consume_requirement(sd, skill_id, skill_lv, 1);  
+  
+        switch (skill_get_casttype(skill_id)) {  
+            case CAST_GROUND:  
+                skill_castend_pos2(src, tbl->x, tbl->y, skill_id, skill_lv, tick, 0);  
+                break;  
+            case CAST_NODAMAGE:  
+                skill_castend_nodamage_id(src, tbl, skill_id, skill_lv, tick, 0);  
+                break;  
+            case CAST_DAMAGE:  
+                skill_castend_damage_id(src, tbl, skill_id, skill_lv, tick, 0);  
+                break;  
+        }  
+  
+        it.lock = false;  
+        sd->state.autocast = 0;  
+  
+        unit_data *ud = unit_bl2ud(src);  
+        if (ud) {  
+            int32 delay = skill_delayfix(src, skill_id, skill_lv);  
+            if (DIFF_TICK(ud->canact_tick, tick + delay) < 0)  
+                ud->canact_tick = i64max(tick + delay, ud->canact_tick);  
+        }  
+    }  
+}  
+  
+
 int32 skill_onskillusage(map_session_data *sd, block_list *bl, uint16 skill_id, t_tick tick) {
 	if( sd == nullptr || !skill_id )
 		return 0;
@@ -1707,6 +1783,8 @@ int32 skill_onskillusage(map_session_data *sd, block_list *bl, uint16 skill_id, 
 
 	return 1;
 }
+
+//void skill_chain_trigger(map_session_data *sd, uint16 skill_id, uint16 skill_lv);
 
 /* Splitted off from skill_additional_effect, which is never called when the
  * attack skill kills the enemy. Place in this function counter status effects
@@ -3290,6 +3368,14 @@ int64 skill_attack (int32 attack_type, block_list* src, block_list *dsrc, block_
 				}
 			}
 		}
+        // --- CUSTOM CHAIN LINK: damage sharing ---  
+            if (tsc->getSCE(SC_CHAINLINK) && damage > 0 && skill_id != CUSTOM_CHAINLINK) {  
+            struct status_change_entry *sce_cl = tsc->getSCE(SC_CHAINLINK);  
+            int64 shared_dmg = damage * 70 / 100;  
+            map_foreachinallrange(chainlink_damage_sub, bl, 20, BL_MOB,  
+                src, bl, sce_cl->val2, shared_dmg);  
+        }
+        // --- END CUSTOM CHAIN LINK ---
 	}
 
 	if(damage > 0 && !status_has_mode(tstatus,MD_STATUSIMMUNE)) {
@@ -4224,6 +4310,11 @@ int32 skill_shimiru_check_cell( block_list* target, va_list ap ){
  *------------------------------------------*/
 int32 skill_castend_damage_id (block_list* src, block_list *bl, uint16 skill_id, uint16 skill_lv, t_tick tick, int32 flag)
 {
+	if (unit_data *ud = unit_bl2ud(src); ud != nullptr) {  
+    ud->last_skill_id = skill_id;  
+    ud->last_skill_lv = skill_lv;  
+    }  
+
 	map_session_data *sd = nullptr;
 	status_change *sc, *tsc;
 
@@ -4431,6 +4522,30 @@ int32 skill_castend_damage_id (block_list* src, block_list *bl, uint16 skill_id,
 		if (!(flag&SKILL_NOCONSUME_REQ))
 			skill_consume_requirement(sd,skill_id,skill_lv,2);
 	}
+
+	if (sd && !sd->areaskill.empty() && !(flag & 1)) {  
+    	// flag&1 means we are already in a recursive/splash invocation — skip  
+    	for (auto &as : sd->areaskill) {  
+        if (as.skill_id != skill_id)  
+            continue;  
+  
+        // Guard: skip skills that are ground-type (they go through skill_castend_pos2, not here)  
+        if (skill_get_inf(skill_id) & INF_GROUND_SKILL)  
+            continue;  
+  
+        if (rnd() % 100 >= as.chance)  
+            continue;  
+  
+        sd->state.autocast = 1;  
+        map_foreachinrange(skill_area_sub, bl,  
+            as.area_size, BL_CHAR,  
+            src, skill_id, skill_lv,  
+            tick, flag | BCT_ENEMY | SD_SPLASH | 1,  
+            skill_castend_damage_id);  
+        sd->state.autocast = 0;  
+        break;  
+    }  
+}  
 
 	return 0;
 }
@@ -7192,6 +7307,29 @@ void ext_skill_unit_onplace(skill_unit *unit, block_list *bl, t_tick tick)
 	skill_unit_onplace(unit, bl, tick);
 }
 
+static void skill_unit_healing_aura_effect(block_list *ss, skill_unit *unit, block_list *bl, const std::shared_ptr<s_skill_unit_group>& sg, t_tick tick)
+{
+	status_data* tstatus = status_get_status_data(*bl);
+
+	if (bl->type == BL_PC) {
+		if (tstatus->hp >= tstatus->max_hp)
+			return;
+
+		int32 heal = max((int32)(tstatus->max_hp / 100), 1);
+
+		clif_skill_nodamage(unit, *bl, AL_HEAL, heal);
+		status_heal(bl, heal, 0, 0);
+		return;
+	}
+
+	if (bl->type == BL_MOB && battle_check_undead(tstatus->race, tstatus->def_ele) && battle_check_target(unit, bl, BCT_ENEMY) > 0) {
+		int32 damage = max((int32)(tstatus->max_hp / 100), 1);
+
+		status_damage(ss, bl, damage, 0, 0, 1, 0);
+		clif_skill_damage(*ss, *bl, tick, 0, 0, damage, 1, sg->skill_id, sg->skill_lv, DMG_SINGLE);
+	}
+}
+
 /**
  * Triggeres when 'target' (based on skill unit target) is stand at unit area
  * while skill unit initialized or moved (such by knock back).
@@ -7762,7 +7900,16 @@ int32 skill_unit_onplace_timer(skill_unit *unit, block_list *bl, t_tick tick)
 				skill_delunit(unit);
 		}
 		break;
+		case UNT_HEALING_AURA:
+			skill_unit_healing_aura_effect(ss, unit, bl, sg, tick);
+			break;
+
 		case UNT_SANCTUARY:
+			if (skill_id == HEALING_AURA) {
+				skill_unit_healing_aura_effect(ss, unit, bl, sg, tick);
+				break;
+			}
+
 			if( battle_check_undead(tstatus->race, tstatus->def_ele) || tstatus->race==RC_DEMON )
 			{ //Only damage enemies with offensive Sanctuary. [Skotlex]
 				if( battle_check_target(unit,bl,BCT_ENEMY) > 0 && skill_attack(BF_MAGIC, ss, unit, bl, sg->skill_id, sg->skill_lv, tick, 0) )
@@ -11922,6 +12069,24 @@ static void skill_unitsetmapcell(skill_unit *src, uint16 skill_id, uint16 skill_
 			map_setcell(src->m, x, y, cell, flag);
 }
 
+// Place this BEFORE skill_attack function (file-scope static):  
+static int32 chainlink_damage_sub(block_list *peer, va_list ap) {  
+    block_list *src   = va_arg(ap, block_list*);  
+    block_list *skip  = va_arg(ap, block_list*);  
+    int32 group_id    = va_arg(ap, int32);  
+    int64 shared_dmg  = va_arg(ap, int64);  
+  
+    if (peer == skip || status_isdead(*peer)) return 0;  
+    status_change *psc = status_get_sc(peer);  
+    if (!psc) return 0;  
+    struct status_change_entry *psce = psc->getSCE(SC_CHAINLINK);  
+    if (!psce || psce->val2 != group_id) return 0;  
+  
+    clif_damage(*peer, *peer, gettick(), 0, 0, shared_dmg, 1, DMG_NORMAL, 0, false);  
+    battle_fix_damage(src, peer, shared_dmg, 0, CUSTOM_CHAINLINK);  
+    return 1;  
+}
+
 /**
  * Do skill attack area (such splash effect) around the 'first' target.
  * First target will skip skill condition, always receive damage. But,
@@ -13064,6 +13229,17 @@ int32 skill_delunitgroup_(std::shared_ptr<s_skill_unit_group> group, const char*
 				}
 			}
 			break;
+		case HEALING_AURA:
+			{
+				block_list* target = map_id2bl(group->val2);
+				status_change* sc = target != nullptr ? status_get_sc(target) : nullptr;
+
+				if (sc != nullptr && sc->getSCE(SC_HEALING_AURA) != nullptr && sc->getSCE(SC_HEALING_AURA)->val3 == group->group_id) {
+					sc->getSCE(SC_HEALING_AURA)->val3 = 0;
+					status_change_end(target, SC_HEALING_AURA);
+				}
+			}
+			break;
 	}
 
 	if (src->type==BL_PC && group->state.ammo_consume)
@@ -13419,7 +13595,7 @@ static int32 skill_unit_timer_sub(DBKey key, DBData *data, va_list ap)
 					skill_delunit(unit);
 				break;
 			case UNT_SANCTUARY:
-				if (group->val1 <= 0) {
+				if (group->skill_id != HEALING_AURA && group->val1 <= 0) {
 					skill_delunitgroup(group);
 				}
 				break;

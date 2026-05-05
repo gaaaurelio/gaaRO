@@ -1,8 +1,8 @@
 //===== rAthena Script =======================================
 //= Mapflag: special popup map setting.
-//===== Description: ========================================= 
+//===== Description: =========================================
 //= Displays a special popup when a player enters the map.
-//===== Additional Comments: ================================= 
+//===== Additional Comments: =================================
 //= 1.0 Initial script. [eppc0330]
 //============================================================
 

@@ -3,23 +3,10 @@
 
 #include "skill_factory_custom.hpp"
 
+#include "chainlink.hpp"
+#include "healingaura.hpp"
+
 #include "../swordman/bash.hpp"
-
-class SkillCustomBash;
-
-std::unique_ptr<const SkillImpl> SkillFactoryCustom::create(const e_skill skill_id) const {
-#if 0
-	switch( skill_id ){
-		case SM_BASH:
-			return std::make_unique<SkillCustomBash>();
-
-		default:
-			return nullptr;
-	}
-#endif
-
-	return nullptr;
-}
 
 class SkillCustomBash : public SkillBash{
 	void calculateSkillRatio(const Damage* wd, const block_list* src, const block_list* target, uint16 skill_lv, int32& base_skillratio, int32 mflag) const override{
@@ -32,3 +19,18 @@ class SkillCustomBash : public SkillBash{
 		base_skillratio += 300 * skill_lv;
 	}
 };
+
+std::unique_ptr<const SkillImpl> SkillFactoryCustom::create(const e_skill skill_id) const {
+	switch( skill_id ){
+#if 0
+		case SM_BASH:
+			return std::make_unique<SkillCustomBash>();
+#endif
+		case HEALING_AURA:
+			return std::make_unique<SkillHealingAura>();
+		case CUSTOM_CHAINLINK:  
+			return std::make_unique<SkillChainLink>();
+		default:
+			return nullptr;
+	}
+}

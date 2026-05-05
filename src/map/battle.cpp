@@ -411,6 +411,31 @@ TIMER_FUNC(battle_delay_damage_sub){
 	return 0;
 }
 
+static int32 battle_chainlink_damage_sub(block_list *peer, va_list ap)
+{
+	block_list *src = va_arg(ap, block_list*);
+	block_list *skip = va_arg(ap, block_list*);
+	int32 group_id = va_arg(ap, int32);
+	int64 shared_dmg = va_arg(ap, int64);
+
+	if (peer == skip || status_isdead(*peer))
+		return 0;
+
+	status_change *psc = status_get_sc(peer);
+
+	if (psc == nullptr)
+		return 0;
+
+	status_change_entry *psce = psc->getSCE(SC_CHAINLINK);
+
+	if (psce == nullptr || psce->val2 != group_id)
+		return 0;
+
+	clif_damage(*peer, *peer, gettick(), 0, 0, shared_dmg, 1, DMG_NORMAL, 0, false);
+	battle_fix_damage(src, peer, shared_dmg, 0, CUSTOM_CHAINLINK);
+	return 1;
+}
+
 int32 battle_delay_damage(t_tick tick, int32 amotion, block_list *src, block_list *target, int32 attack_type, uint16 skill_id, uint16 skill_lv, int64 damage, enum damage_lv dmg_lv, int16 div_, bool additional_effects, bool isspdamage, bool is_norm_attacked)
 {
 	struct delay_damage *dat;
@@ -428,6 +453,15 @@ int32 battle_delay_damage(t_tick tick, int32 amotion, block_list *src, block_lis
 			d_tbl = map_id2bl(sc->getSCE(SC_DEVOTION)->val1);
 		if (sc->getSCE(SC_WATER_SCREEN_OPTION) && sc->getSCE(SC_WATER_SCREEN_OPTION)->val1)
 			e_tbl = map_id2bl(sc->getSCE(SC_WATER_SCREEN_OPTION)->val1);
+		// --- CUSTOM CHAIN LINK: normal attack damage sharing ---
+		if (sc->getSCE(SC_CHAINLINK) && damage > 0 && skill_id != CUSTOM_CHAINLINK) {
+			status_change_entry *sce_cl = sc->getSCE(SC_CHAINLINK);
+			int64 shared_dmg = damage * 70 / 100;
+
+			map_foreachinallrange(battle_chainlink_damage_sub, target, 20, BL_MOB,
+				src, target, sce_cl->val2, shared_dmg);
+		}
+		// --- END CUSTOM CHAIN LINK ---
 	}
 
 	if( ((d_tbl && check_distance_bl(target, d_tbl, sc->getSCE(SC_DEVOTION)->val3)) || e_tbl) &&

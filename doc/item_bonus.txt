@@ -86,6 +86,7 @@ The format of bonuses listed in this file is as follows:
 	4. Status-related Bonuses
 	5. AutoSpell Bonuses
 	6. Misc Bonuses
+	7. Custom Bonuses
 
 ====================
 | 1. Basic Bonuses |
@@ -511,3 +512,12 @@ bonus bClassChange,n;     		Gives a n/100% chance to change the attacked monster
 bonus bAddStealRate,n;    		Increases success rate of Steal skill by n/100%
 bonus bNoMadoFuel;			Nullify Magic Gear Fuel requirement for skills.
 bonus bNoWalkDelay;				Give infinite Endure.
+
+====================
+| 7. Custom Bonuses |
+====================
+
+Custom bonuses
+----------
+bonus bSkillChain,n;			Casts skill on targets if original mob dies at n/1000% chance.
+bonus3 bAreaSkill,x,y,n;		Casts skill x on area y at n/100% chance (works only with single target skills).

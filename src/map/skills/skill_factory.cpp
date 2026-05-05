@@ -16,6 +16,8 @@
 #include "./acolyte/skill_factory_acolyte.cpp"
 #include "./archer/skill_factory_archer.cpp"
 #include "./custom/skill_factory_custom.cpp"
+#include "./custom/chainlink.cpp"
+#include "./custom/healingaura.cpp"
 #include "./elemental/skill_factory_elemental.cpp"
 #include "./gunslinger/skill_factory_gunslinger.cpp"
 #include "./mage/skill_factory_mage.cpp"

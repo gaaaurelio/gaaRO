@@ -2953,6 +2953,9 @@ int32 mob_dead(mob_data *md, block_list *src, int32 type)
 	if( src && src->type == BL_PC ) {
 		sd = (map_session_data *)src;
 		first_sd = sd;
+		unit_data *ud = unit_bl2ud(src);  
+    	if (ud && ud->last_skill_id > 0 && !sd->skill_chain.empty())  
+        skill_chain_trigger(sd, ud->last_skill_id, ud->last_skill_lv);  
 	}
 
 	if( md->guardian_data && md->guardian_data->number >= 0 && md->guardian_data->number < MAX_GUARDIANS )

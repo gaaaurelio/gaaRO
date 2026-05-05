@@ -2603,7 +2603,9 @@ enum e_skill {
 	ABR_DUAL_CANNON_FIRE,
 	ABR_NET_REPAIR,
 	ABR_NET_SUPPORT,
-	ABR_INFINITY_BUSTER
+	ABR_INFINITY_BUSTER,
+	HEALING_AURA = 9000,
+	CUSTOM_CHAINLINK = 9001
 };
 
 /// The client view ids for land skills.
@@ -2803,7 +2805,7 @@ enum e_skill_unit_id : uint16 {
 	UNT_GD_GLORYWOUNDS = 0xc2,
 	UNT_GD_SOULCOLD = 0xc3,
 	UNT_GD_HAWKEYES = 0xc4,
-
+	UNT_HEALING_AURA,
 	UNT_MAX = 0x190
 };
 
@@ -2905,6 +2907,8 @@ int32 skill_get_time3(struct map_data *mapdata, uint16 skill_id, uint16 skill_lv
 
 bool skill_mirage_cast( block_list& src, block_list* bl, uint16 skill_id, uint16 skill_lv, int16 x, int16 y, t_tick tick, int32 flag );
 int32 skill_shimiru_check_cell( block_list* target, va_list ap );
+
+void skill_chain_trigger(map_session_data *sd, uint16 skill_id, uint16 skill_lv);
 
 /// Variable name of copied skill by Plagiarism
 #define SKILL_VAR_PLAGIARISM "CLONE_SKILL"

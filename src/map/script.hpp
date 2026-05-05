@@ -2197,6 +2197,7 @@ enum e_hat_effects : int16{
 	HAT_EF_C_CLB_GAT_DOC,
 	HAT_EF_C_EYE_OF_NECROMANCER,
 	HAT_EF_C_JAOW_PIRUN,
+	HAT_EF_MIC,
 
 	HAT_EF_MAX
 };
