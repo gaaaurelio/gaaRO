@@ -38,17 +38,17 @@
 prontera, 150,184,4	script	Plagiarism Master	4_M_YOYOROGUE,{
 	if( (Class != Job_Rogue) && (Class != Job_Stalker) ) {
 		mes(.npc_name$);
-		mes(sprintf("Greetings ^0055FF%s^000000.", strcharinfo(PC_NAME)));
-		mes("I am the ^FF0000Plagiarism Master^000000.");
+		mes(sprintf("Saudações, ^0055FF%s^000000.", strcharinfo(PC_NAME)));
+		mes("Eu sou o ^FF0000Mestre do Plágio^000000.");
 		mes("\n");
-		mes("Unfortunately, only <b>^0000FFRogues^000000</b> and <b>^0000FFStalkers^000000</b> can utilize my services.");
+		mes("Infelizmente, só <b>^0000FFArruaceiros^000000</b> e <b>^0000FFDesordeiros^000000</b> podem usar meus serviços.");
 		close();
 	}
 	mes(.npc_name$);
-	mes(sprintf("Greetings ^0055FF%s^000000.", strcharinfo(PC_NAME)));
-	mes("I am the <b>^FF0000Plagiarism Master^000000</b>.");
+	mes(sprintf("Saudações, ^0055FF%s^000000.", strcharinfo(PC_NAME)));
+	mes("Eu sou o <b>^FF0000Mestre do Plágio^000000</b>.");
 	mes("\n");
-	mes(sprintf("For %sz, I can help you copy any skill of your choosing.", callfunc("F_InsertComma", .skill_zeny)));
+	mes(sprintf("Por %sz, posso ajudar você a copiar a habilidade que escolher.", callfunc("F_InsertComma", .skill_zeny)));
 	next();
 	.@menu_choice = select(
 		"- Acolyte Skills",
@@ -70,36 +70,36 @@ prontera, 150,184,4	script	Plagiarism Master	4_M_YOYOROGUE,{
 			.@current_id = getplagiarizedskill(1);
 			.@current_lv = getplagiarizedskilllv(1);
 			if( .@current_id > 0 ) {
-				mes("Your currently <b>Plagiarized </b>skill is:");
+				mes("Sua habilidade <b>Plagiada </b>atual é:");
 				// getskilldesc = Friendly Name (Detect)
 				// getskillname = Constant Name (HT_DETECTING)
-				mes(sprintf("<b>^0000FF%s^000000</b> (^777777%s^000000) ^00AA00Lv.%d^000000", getskilldesc(.@current_id), getskillname(.@current_id), .@current_lv));
+				mes(sprintf("<b>^0000FF%s^000000</b> (^777777%s^000000) ^00AA00Nv.%d^000000", getskilldesc(.@current_id), getskillname(.@current_id), .@current_lv));
 			}
 			else {
-				mes("You don't have any skill plagiarized yet.");
+				mes("Você ainda não tem nenhuma habilidade plagiada.");
 			}
 		}
 		else {
-			mes("You haven't learned the Plagiarism skill yet.");
+			mes("Você ainda não aprendeu a habilidade Plágio.");
 		}
 		close();
 	}
 	if( .@menu_choice == 11 ) {
 		mes(.npc_name$);
 		if( getstatus(SC_PRESERVE) ) {
-			mes("You have ^FF0000Preserve^000000 active.");
-			mes("I will remove it before resetting your plagiarized skill.");
+			mes("Você está com ^FF0000Preservar^000000 ativo.");
+			mes("Vou removê-lo antes de redefinir sua habilidade plagiada.");
 			next();
 			sc_end(SC_PRESERVE);
 		}
 		plagiarizeskillreset(1);
-		mes("Your plagiarized skill has been reset.");
+		mes("Sua habilidade plagiada foi redefinida.");
 		specialeffect2(EF_REPAIRWEAPON);
 		close();
 	}
 	if( .@menu_choice == 12 ) {
 		mes(.npc_name$);
-		mes("Please come back anytime you need my services.");
+		mes("Volte sempre que precisar dos meus serviços.");
 		close();
 	}
 	// Using Skill Constant Names
@@ -240,7 +240,7 @@ prontera, 150,184,4	script	Plagiarism Master	4_M_YOYOROGUE,{
 			break;
 		default:
 			mes(.npc_name$);
-			mes("Invalid selection.");
+			mes("Seleção inválida.");
 			close();
 	}
 	.@count = getarraysize(.@skill_names$);
@@ -249,10 +249,10 @@ prontera, 150,184,4	script	Plagiarism Master	4_M_YOYOROGUE,{
 	//	.@skill_ids[.@i] = getskillid(.@skill_names$[.@i]);
 	//}
 	mes(.npc_name$);
-	mes(sprintf("<b>^0055FF%s Skills^000000</b>", .@category$));
-	mes("Please select a skill from the UI window.");
+	mes(sprintf("<b>^0055FFHabilidades de %s^000000</b>", .@category$));
+	mes("Escolha uma habilidade na janela.");
 	mes("\n");
-	mes("<b>^FF0000Note:^000000</b> Close the window to cancel.");
+	mes("<b>^FF0000Nota:^000000</b> Feche a janela para cancelar.");
 	next();
 	switch(.@count)
 	{ // skillselectmenu() with skill names (Accepts Strings)
@@ -318,23 +318,23 @@ prontera, 150,184,4	script	Plagiarism Master	4_M_YOYOROGUE,{
 			break;
 		default:
 			mes(.npc_name$);
-			mes("<b>^FF0000Error:^000000</b> Too many skills in this category.");
+			mes("<b>^FF0000Erro:^000000</b> Habilidades demais nesta categoria.");
 			close();
 	}
 	if( (.@selected == 0) || (.@selected == -1) ) {
 		clear();
 		mes(.npc_name$);
-		mes("The <i>Selection UI</i> canceled.");
-		mes("Please return whenever you feel prepared.");
+		mes("A <i>janela de seleção</i> foi cancelada.");
+		mes("Volte quando se sentir preparado(a).");
 		close();
 	}
 	// Check if player already has this skill plagiarized
 	.@current_id = getplagiarizedskill(1);
 	if( .@current_id == .@selected ) {
 		mes(.npc_name$);
-		mes(sprintf("You already have <b>^0000FF%s^000000</b> (^777777%s^000000) Plagiarized.", getskilldesc(.@selected), getskillname(.@selected)));
+		mes(sprintf("Você já tem <b>^0000FF%s^000000</b> (^777777%s^000000) plagiada.", getskilldesc(.@selected), getskillname(.@selected)));
 		mes("\n");
-		mes("Please choose another skill.");
+		mes("Escolha outra habilidade.");
 		close();
 	}
 	// Find Corresponding Skill Lv.
@@ -348,27 +348,27 @@ prontera, 150,184,4	script	Plagiarism Master	4_M_YOYOROGUE,{
 	// Safety check
 	if( .@selected_level == 0 ) {
 		mes(.npc_name$);
-		mes("<b>^FF0000Error:^000000</b> Could not find skill level data.");
+		mes("<b>^FF0000Erro:^000000</b> Não foi possível encontrar os dados de nível da habilidade.");
 		close();
 	}
 	next();
 	mes(.npc_name$);
-	mes(sprintf("You selected: <b>^0000FF%s^000000</b> (^777777%s^000000) ^00AA00Lv.%d^000000", getskilldesc(.@selected), getskillname(.@selected), .@selected_level));
+	mes(sprintf("Você escolheu: <b>^0000FF%s^000000</b> (^777777%s^000000) ^00AA00Nv.%d^000000", getskilldesc(.@selected), getskillname(.@selected), .@selected_level));
 	mes("\n");
-	mes(sprintf("Cost: ^00AA00%s Zeny^000000", callfunc("F_InsertComma", .skill_zeny)));
-	mes(sprintf("Your Zeny: ^0055FF%s^000000", callfunc("F_InsertComma", Zeny)));
+	mes(sprintf("Custo: ^00AA00%s Zeny^000000", callfunc("F_InsertComma", .skill_zeny)));
+	mes(sprintf("Seu Zeny: ^0055FF%s^000000", callfunc("F_InsertComma", Zeny)));
 	mes("\n\n");
-	mes("Proceed with plagiarism?");
+	mes("Continuar com o plágio?");
 	next();
-	if( select(sprintf("- Plagiarize Skill (%s Lv.%d)", getskilldesc(.@selected), .@selected_level), "- Cancel") == 2 ) {
+	if( select(sprintf("- Plagiar habilidade (%s Nv.%d)", getskilldesc(.@selected), .@selected_level), "- Cancelar") == 2 ) {
 		mes(.npc_name$);
-		mes("Please feel free to return anytime if you would like to utilize any of the skills I offer on this list.");
+		mes("Volte quando quiser usar qualquer uma das habilidades que ofereço nesta lista.");
 		close();
 	}
 	if( Zeny < .skill_zeny ) {
 		mes(.npc_name$);
-		mes("^FF0000Insufficient Zeny!^000000");
-		mes(sprintf("You need at least ^00AA00%s Zeny^000000.", callfunc("F_InsertComma", .skill_zeny)));
+		mes("^FF0000Zeny insuficiente!^000000");
+		mes(sprintf("Você precisa de pelo menos ^00AA00%s Zeny^000000.", callfunc("F_InsertComma", .skill_zeny)));
 		close();
 	}
 	if( getstatus(SC_PRESERVE) ) {
@@ -378,27 +378,27 @@ prontera, 150,184,4	script	Plagiarism Master	4_M_YOYOROGUE,{
 		Zeny -= .skill_zeny;
 		specialeffect2(EF_BASH3D);
 		specialeffect2(EF_STEAL);
-		message(strcharinfo(PC_NAME), sprintf("Successfully Copied: %s (%s) Lv.%d", getskilldesc(.@selected), getskillname(.@selected), .@selected_level));
+		message(strcharinfo(PC_NAME), sprintf("Copiado com sucesso: %s (%s) Nv.%d", getskilldesc(.@selected), getskillname(.@selected), .@selected_level));
 		mes(.npc_name$);
-		mes("<b>^00AA00SUCCESS^000000</b>");
-		mes(sprintf("You have plagiarized <b>^0000FF%s^000000</b> (^777777%s^000000) ^00AA00Lv.%d^000000.", getskilldesc(.@selected), getskillname(.@selected), .@selected_level));
+		mes("<b>^00AA00SUCESSO^000000</b>");
+		mes(sprintf("Você plagiou <b>^0000FF%s^000000</b> (^777777%s^000000) ^00AA00Nv.%d^000000.", getskilldesc(.@selected), getskillname(.@selected), .@selected_level));
 		mes("\n");
-		mes("Please use it wisely!");
+		mes("Use com sabedoria!");
 	}
 	else {
 		mes(.npc_name$);
-		mes("<b>^FF0000FAILED TO APPLY PLAGIARISM^000000</b>");
+		mes("<b>^FF0000FALHA AO APLICAR O PLÁGIO^000000</b>");
 		mes("\n");
-		mes(sprintf("The skill <b>^0000FF%s^000000</b> (^777777%s^000000) is not copyable.", getskilldesc(.@selected), getskillname(.@selected)));
+		mes(sprintf("A habilidade <b>^0000FF%s^000000</b> (^777777%s^000000) não pode ser copiada.", getskilldesc(.@selected), getskillname(.@selected)));
 		mes("\n");
 		// Show current skill if they still have one
 		.@current_id = getplagiarizedskill(1);
 		if (.@current_id > 0) {
 			.@current_lv = getplagiarizedskilllv(1);
-			mes(sprintf("Your current skill <b>^0000FF%s^000000</b> (^777777%s^000000) ^00AA00Lv.%d^000000 remains intact.", getskilldesc(.@current_id), getskillname(.@current_id), .@current_lv));
+			mes(sprintf("Sua habilidade atual <b>^0000FF%s^000000</b> (^777777%s^000000) ^00AA00Nv.%d^000000 continua intacta.", getskilldesc(.@current_id), getskillname(.@current_id), .@current_lv));
 		}
 		mes("\n");
-		mes("^777777Check 'skill_db.yml' for the Copyable: Plagiarism FLAG.^000000");
+		mes("^777777Verifique a FLAG Copyable: Plagiarism no 'skill_db.yml'.^000000");
 	}
 	close();
 

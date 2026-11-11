@@ -1,7 +1,7 @@
 prontera,150,180,4	script	Pet Egg Analyzer	100,{
 
 	mes "[Pet Egg Analyzer]";
-	mes "Choose a Pet Egg:";
+	mes "Escolha um Ovo de Mascote:";
 
 	getinventorylist;
 
@@ -27,7 +27,7 @@ prontera,150,180,4	script	Pet Egg Analyzer	100,{
 	if (.@count == 0) {
 		clear;
 		mes "[Pet Egg Analyzer]";
-		mes "You have no Pet Eggs.";
+		mes "Você não tem Ovos de Mascote.";
 		close;
 	}
 
@@ -41,7 +41,7 @@ prontera,150,180,4	script	Pet Egg Analyzer	100,{
 	.@sel = select(.@menu$) - 1;
 
 	if (.@sel < 0 || .@sel >= .@count) {
-		mes "Invalid selection.";
+		mes "Seleção inválida.";
 		close;
 	}
 
@@ -97,7 +97,7 @@ prontera,150,180,4	script	Pet Egg Analyzer	100,{
 
 			if (!.@hasOpt) {
 				mes "";
-				mes "^FF9900Random Options:^000000";
+				mes "^FF9900Opções Aleatórias:^000000";
 				.@hasOpt = 1;
 			}
 
@@ -110,7 +110,7 @@ prontera,150,180,4	script	Pet Egg Analyzer	100,{
 	}
 
 	if (!.@hasOpt)
-		mes "This item has no Random Options.";
+		mes "Este item não tem Opções Aleatórias.";
 
 	close;
 }
@@ -156,7 +156,7 @@ prontera,150,180,4	script	Pet Egg Analyzer	100,{
 
 			dispbottom "==========================";
 			dispbottom getitemname(.@item_id) + " [#" + .@found + "]";
-			dispbottom "Random Options:";
+			dispbottom "Opções Aleatórias:";
 
 			.@hasOpt = 0;
 
@@ -183,13 +183,13 @@ prontera,150,180,4	script	Pet Egg Analyzer	100,{
 			}
 
 			if (!.@hasOpt)
-				dispbottom "- None";
+				dispbottom "- Nenhuma";
 
 			dispbottom "";
 		}
 
 		if (!.@found)
-			dispbottom "You have no Pet Eggs.";
+			dispbottom "Você não tem Ovos de Mascote.";
 
 		end;
 }

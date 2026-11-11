@@ -17,18 +17,18 @@ moc_prydb1,39,129,2	script	Thief Guide#thief	69,{
 		if (ADVJOB == Job_Assassin_Cross || ADVJOB == Job_Stalker) {
 			if (Class == Job_Novice_High) {
 				mes "[Thief Guide]";
-				mes "Huh? Do I know you? It's creepy that you seem so familiar. You don't have a twin, do you?";
+				mes "Hã? Eu conheço você? Que estranho você parecer tão familiar. Você não tem um(a) gêmeo(a), tem?";
 				next;
 				if (!callfunc("F_CanChangeJob")) {
 					mes "[Thief Guide]";
-					mes "What, do you want to be a Thief? I'm sorry, but you look like you need more training.";
+					mes "O quê, quer ser Gatuno(a)? Desculpe, mas parece que você precisa treinar mais.";
 					next;
 					mes "[Thief Guide]";
-					mes "Take your time and learn all the Basic Skills, will you? Well then, see you later~!";
+					mes "Não tenha pressa e aprenda todas as Habilidades Básicas, combinado? Bom, até mais~!";
 					close;
 				}
 				mes "[Thief Guide]";
-				mes "Well, I got this feeling like you've been through a lifetime of fighting, so I'm promoting you to a Thief right this minute. I better give you tough guys what you want...";
+				mes "Bom, tenho a sensação de que você já passou uma vida inteira lutando, então vou promover você a Gatuno(a) agora mesmo. Melhor dar o que vocês, durões, querem...";
 				next;
 				skill "NV_TRICKDEAD",0,SKILL_PERM;
 				jobchange Job_Thief_High;
@@ -37,119 +37,119 @@ moc_prydb1,39,129,2	script	Thief Guide#thief	69,{
 				skill "TF_PICKSTONE",1,SKILL_PERM;
 				skill "TF_THROWSTONE",1,SKILL_PERM;
 				mes "[Thief Guide]";
-				mes "Since you've become a Thief, live as a Thief. Now, go for it! Next~";
+				mes "Já que virou Gatuno(a), viva como Gatuno(a). Agora vai! Próximo~";
 				close;
 			}else{
 				mes "[Thief Guide]";
 				if (Sex == SEX_MALE)
-					mes "Hey, dude.";
+					mes "Ei, cara.";
 				else
-					mes "Hey, baby~";
+					mes "Ei, gatinha~";
 				close;
 			}
 		}else{
 			mes "[Thief Guide]";
 			if (Sex == SEX_MALE)
-				mes "Hey, dude.";
+				mes "Ei, cara.";
 			else
-				mes "Hey, baby.";
-			mes "...Hey! You look too goody-goody to want to be a Thief!! Now scram, I'm busy. Next!";
+				mes "Ei, gata.";
+			mes "...Ei! Você parece certinho(a) demais para querer ser Gatuno(a)!! Agora some daqui, estou ocupado. Próximo!";
 			close;
 		}
 	}
 	if(q_job_thief == 1) {
 		mes "[Thief Guildsman]";
-		mes "Ehh... Seems like a beloved "+(Sex == SEX_MALE?"son":"daughter")+" of a rich family, but why are you here in this dirty place?";
+		mes "Ehh... Parece um(a) "+(Sex == SEX_MALE?"filho":"filha")+" querido(a) de família rica, mas o que faz aqui neste lugar sujo?";
 		next;
 		mes "[Thief Guildsman]";
-		mes "Well, I'm not in charge of making you a Thief. I just accept applications, get it?";
-		mes "If you want to become a Thief, ask the sharp-eyed guy next to me.";
+		mes "Bom, não sou eu que transformo você em Gatuno(a). Eu só recebo as inscrições, entendeu?";
+		mes "Se quiser virar Gatuno(a), fale com o cara de olhar afiado aqui do lado.";
 		close;
 	}
 	mes "[Thief Guildsman]";
 	if(BaseJob != Job_Novice) {
 		if(BaseJob == Job_Thief) {
-			mes "Hey~ if you have any trouble, get it out to me anytime, huh?";
+			mes "Ei~ se tiver qualquer problema, pode desabafar comigo, viu?";
 			close;
 		}else{
-			mes "What the heck...?";
+			mes "Mas que diabos...?";
 			if(Sex == SEX_MALE) {
-				mes "Huh... you are a "+jobname(Class)+", blockhead!";
+				mes "Hã... você é "+jobname(Class)+", seu cabeça-dura!";
 				next;
 				mes "[Thief Guildsman]";
-				mes "Hey, brother.";
+				mes "Ei, irmão.";
 			}else{
 				next;
 				mes "[Thief Guildsman]";
-				mes "Hey, lady.";
+				mes "Ei, moça.";
 			}
-			mes "Why are you here? Go back to your place~ go back~~";
+			mes "O que faz aqui? Volte para o seu lugar~ volte~~";
 			close;
 		}
 	}
-	mes "Ehh... Seems like a beloved "+(Sex == SEX_MALE?"son":"daughter")+" of a rich family, but why are you here in this dirty place?";
+	mes "Ehh... Parece um(a) "+(Sex == SEX_MALE?"filho":"filha")+" querido(a) de família rica, mas o que faz aqui neste lugar sujo?";
 	next;
-	if(select("I want to be a Thief.:Nothing.") == 2) {
+	if(select("Quero ser Gatuno(a).:Nada.") == 2) {
 		mes "[Thief Guildsman]";
-		mes "You know you cannot be a thief without an application...";
-		mes "What's on your mind...?";
+		mes "Você sabe que não dá para ser Gatuno(a) sem fazer a inscrição...";
+		mes "O que está pensando...?";
 		close;
 	}
 	mes "[Thief Guildsman]";
-	mes "Well, are you that proud of it?";
-	mes "You're telling me so proudly that you want to be a Thief! Why don't you go to all the villages and advertise yourself for being a thief?";
-	mes "'Ha ha ha! Go put up a banner that says 'I will be a proud thief who steals other people's stuff.'";
+	mes "Bom, está tão orgulhoso(a) assim?";
+	mes "Me dizendo todo(a) orgulhoso(a) que quer ser Gatuno(a)! Por que não vai a todas as vilas fazer propaganda de que é um(a) ladrão(ladra)?";
+	mes "'Ha ha ha! Vá pendurar uma faixa dizendo 'Serei um(a) ladrão(ladra) orgulhoso(a) que rouba as coisas dos outros.'";
 	next;
 	mes "[Thief Guildsman]";
-	mes "Do you want to be a thief so badly?";
+	mes "Quer tanto assim ser Gatuno(a)?";
 	next;
-	switch(select("Yes.:No.:How about you?")) {
+	switch(select("Sim.:Não.:E você?")) {
 	case 1:
 		mes "[Thief Guildsman]";
-		mes "Oh, do you...? Huh.. well... I do live and learn to see strange people like you.";
+		mes "Ah, quer é...? Hum.. bom... a gente vive e aprende vendo gente estranha como você.";
 		next;
 		break;
 	case 2:
 		mes "[Thief Guildsman]";
-		mes "Then why are you here? Do you think you can become a thief so easily?";
+		mes "Então por que está aqui? Acha que dá para virar Gatuno(a) assim tão fácil?";
 		next;
 		break;
 	case 3:
 		mes "[Thief Guildsman]";
-		mes "Eh..? me? me?";
-		mes "Well... I just fit well to being a thief... characteristically... I don't mind this silly matter.";
+		mes "Hã..? Eu? Eu?";
+		mes "Bom... eu simplesmente combino com ser ladrão... pela personalidade... não ligo para essa bobagem.";
 		next;
 		break;
 	}
 	mes "[Thief Guildsman]";
-	mes "Anyway, in the outside world, never say that you want to be a Thief!!";
+	mes "Enfim, lá fora, nunca diga que quer ser Gatuno(a)!!";
 	next;
 	mes "[Thief Guildsman]";
-	mes "So, do you want to apply for being a Thief?";
+	mes "Então, quer se inscrever para ser Gatuno(a)?";
 	next;
-	if(select("Yes, I do.:No.") == 2) {
+	if(select("Sim, quero.:Não.") == 2) {
 		mes "[Thief Guildsman]";
-		mes "Well... do what you want to do~ Go your way~";
+		mes "Bom... faça o que quiser~ Siga seu caminho~";
 		close;
 	}
 	mes "[Thief Guildsman]";
-	mes "Alright, tell me your name. Huh? What?";
-	mes ""+strcharinfo(0)+". So "+strcharinfo(0)+", right...?";
+	mes "Certo, me diga seu nome. Hã? O quê?";
+	mes ""+strcharinfo(0)+". Então "+strcharinfo(0)+", certo...?";
 	next;
 	if (!callfunc("F_CanChangeJob")) {
 		mes "[Thief Guildsman]";
-		mes "I can see your strong will to become a Thief......";
-		mes "But only with your will, you cannot make it in a real fight, can you?";
-		mes "So go and reach at least Basic Skill Level 9.";
+		mes "Vejo sua grande vontade de virar Gatuno(a)......";
+		mes "Mas só com vontade você não vence uma luta de verdade, não é?";
+		mes "Então vá e chegue pelo menos ao nível 9 da Habilidade Básica.";
 		close;
 	}
 	mes "[Thief Guildsman]";
-	mes "Hmm.... I found your interesting criminal records from the data of the detective agency. Well you seem to have what it takes to be a good thief.";
-	mes ""+strcharinfo(0)+". I now declare that you have passed the job interview!";
+	mes "Hum.... Achei seus interessantes antecedentes criminais nos dados da agência de detetives. Bom, parece que você tem o que é preciso para ser um(a) bom(boa) ladrão(ladra).";
+	mes ""+strcharinfo(0)+". Declaro que você passou na entrevista!";
 	next;
 	mes "[Thief Guildsman]";
-	mes "Well, I'm not in charge of making you a Thief. I just accept applications, get it?";
-	mes "If you want to become a Thief, ask the guy next to me.";
+	mes "Bom, não sou eu que transformo você em Gatuno(a). Eu só recebo as inscrições, entendeu?";
+	mes "Se quiser virar Gatuno(a), fale com o cara aqui do lado.";
 	set q_job_thief,1;
 	close;
 }
@@ -157,46 +157,46 @@ moc_prydb1,39,129,2	script	Thief Guide#thief	69,{
 moc_prydb1,42,133,2	script	Thief Guildsman#thief	118,{
 	if(q_job_thief == 1) {
 		mes "[Thief Guildsman]";
-		mes "Alright. You must have passed the job interview, huh?";
-		mes "Good. I'll accept you.";
-		mes "Let's begin the job-changing ceremony of our guild!";
+		mes "Certo. Você deve ter passado na entrevista, hein?";
+		mes "Ótimo. Vou aceitar você.";
+		mes "Vamos começar a cerimônia de mudança de classe da nossa guilda!";
 		next;
 		mes "[Commander of Thief Guild]";
 		mes "'"+strcharinfo(0)+".'";
-		mes "'For those who are ready, the moonlight shall open the way. Now you are fully ready, I now officially allow you to become a member of the Thief Guild.'";
+		mes "'Para os que estão prontos, o luar abrirá o caminho. Agora que você está pronto(a), permito oficialmente que se torne membro da Guilda dos Gatunos.'";
 		callfunc "Job_Change",Job_Thief;
 		set q_job_thief,0;
 		getitem 13041,1;	// N_Main_Gauche
 		next;
 		mes "[Commander of Thief Guild]";
-		mes "'Congratulations on becoming a Thief.'";
-		mes "'From now on, keep the rules of our guild and be an honorable member.'";
-		mes "'If you bring us any disgrace by breaking our rules, you better watch your back.'";
-		mes "'Anyway, I expect you to be a great thief.'";
+		mes "'Parabéns por se tornar Gatuno(a).'";
+		mes "'De agora em diante, siga as regras da nossa guilda e seja um membro honrado.'";
+		mes "'Se nos envergonhar quebrando nossas regras, é melhor ficar de olho nas costas.'";
+		mes "'Enfim, espero que você seja um(a) grande ladrão(ladra).'";
 		next;
 		mes "[Brad]";
-		mes "Heee~Yaaaa~! Congratulations! My friend.";
-		mes "My name is 'Brad'. I'm in charge of human resources here.";
-		mes "I'm not sure for now but you'll have more chances to see me later on.";
+		mes "Rrrraaaa~! Parabéns! Meu amigo.";
+		mes "Meu nome é 'Brad'. Sou responsável pelos recursos humanos aqui.";
+		mes "Por enquanto não sei, mas você terá mais chances de me ver depois.";
 		next;
 		mes "[Brad]";
-		mes "Okay, I've done what I can do to you, so go on your way. I'm quite a busy man.";
-		mes "See you again.";
+		mes "Certo, fiz o que podia por você, então siga seu caminho. Sou um homem bem ocupado.";
+		mes "Até mais.";
 		close;
 	}
 	if(BaseJob != Job_Novice) {
 		if(BaseJob == Job_Thief) {
 			mes "[Brad]";
-			mes "I don't have any special events now. So go on your way and come back later.";
+			mes "Não tenho nenhum evento especial agora. Siga seu caminho e volte mais tarde.";
 		}else{
 			mes "[Thief Guildsman]";
-			mes "Hey~ Hey~ You're not a novice or a thief!";
-			mes "What are you doing here? You're not welcome to make this place your home~ Hweeeee~ Get outta here~";
+			mes "Ei~ Ei~ Você não é Aprendiz nem Gatuno(a)!";
+			mes "O que faz aqui? Aqui não é a sua casa~ Fiuuuuu~ Cai fora~";
 		}
 		close;
 	}
 	mes "[Thief Guildsman]";
-	mes "Ho? Why is a novice like you visiting here?";
-	mes "If you are here to be a Thief, ask the nasty-tempered lady right next to me.";
+	mes "Hô? Por que um(a) Aprendiz como você está aqui?";
+	mes "Se veio para virar Gatuno(a), fale com a moça mal-humorada aqui do lado.";
 	close;
 }
