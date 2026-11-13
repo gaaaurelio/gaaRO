@@ -1,0 +1,43 @@
+//===== gaaRO Script =========================================
+//= Ore Trader (sala de refino de Prontera)
+//= Troca 3 Oridecon por 1 Oridecon Enriquecido e 3 Elunium por 1 Elunium Enriquecido, sem taxa.
+//= Arquivo gravado em Latin-1 (cp1252), como o cliente exibe dialogos.
+//============================================================
+
+prt_in,55,69,4	script	Ore Trader	4_M_DWARF,{
+	.@rate = 3;
+	mes "[Ore Trader]";
+	mes "Troco ^0000FF" + .@rate + " Oridecon^000000 por ^0000FF1 Oridecon Enriquecido^000000,";
+	mes "e ^0000FF" + .@rate + " Elunium^000000 por ^0000FF1 Elunium Enriquecido^000000.";
+	mes "Sem taxa nenhuma!";
+	next;
+	.@m = select("Trocar Oridecon:Trocar Elunium:Cancelar");
+	if (.@m == 3) close;
+	if (.@m == 1) { .@raw = 984; .@out = 7620; } else { .@raw = 985; .@out = 7619; }
+	.@max = countitem(.@raw) / .@rate;
+	mes "[Ore Trader]";
+	if (.@max < 1) {
+		mes "Você precisa de pelo menos " + .@rate + " ^0000FF" + getitemname(.@raw) + "^000000 para uma troca.";
+		close;
+	}
+	mes "Você pode fazer até ^0000FF" + .@max + "^000000 troca(s).";
+	mes "Quantas trocas deseja? (0 para cancelar)";
+	next;
+	input .@qtd, 0, .@max;
+	if (.@qtd < 1) close;
+	mes "[Ore Trader]";
+	if (countitem(.@raw) < .@rate * .@qtd) {
+		mes "Parece que você não tem minério suficiente.";
+		close;
+	}
+	if (checkweight(.@out, .@qtd) == 0) {
+		mes "Você está carregando peso demais. Guarde algumas coisas e volte.";
+		close;
+	}
+	delitem .@raw, .@rate * .@qtd;
+	getitem .@out, .@qtd;
+	specialeffect2 EF_REFINEOK;
+	mes "Pronto! Aqui estão seus " + .@qtd + " ^0000FF" + getitemname(.@out) + "^000000.";
+	mes "Volte sempre!";
+	close;
+}

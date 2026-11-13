@@ -9814,10 +9814,9 @@ BUILDIN_FUNC(failedrefitem) {
 	if (equip_index_check(pos))
 		i = pc_checkequip(sd,equip_bitmask[pos]);
 	if (i >= 0) {
-		sd->inventory.u.items_inventory[i].refine = 0;
-		pc_unequipitem(sd,i,3); //recalculate bonus
+		// gaaRO: refino sem quebra. A falha so mostra o efeito/mensagem; o item NAO e destruido
+		// nem perde nivel de refino (o upstream zerava o refino e apagava o item).
 		clif_refine( *sd, i, ITEMREFINING_FAILURE);
-		pc_delitem(sd,i,1,0,2,LOG_TYPE_SCRIPT);
 		clif_misceffect( *sd, NOTIFYEFFECT_REFINE_FAILURE );
 		achievement_update_objective(sd, AG_ENCHANT_FAIL, 1, 1);
 		script_pushint(st, 1);
@@ -9850,23 +9849,10 @@ BUILDIN_FUNC(downrefitem) {
 	if (equip_index_check(pos))
 		i = pc_checkequip(sd,equip_bitmask[pos]);
 	if (i >= 0) {
-		uint32 ep = sd->inventory.u.items_inventory[i].equip;
-
-		//Logs items, got from (N)PC scripts [Lupus]
-		log_pick_pc(sd, LOG_TYPE_SCRIPT, -1, &sd->inventory.u.items_inventory[i]);
-
-		pc_unequipitem(sd,i,2); // status calc will happen in pc_equipitem() below
-		sd->inventory.u.items_inventory[i].refine -= down;
-		sd->inventory.u.items_inventory[i].refine = cap_value( sd->inventory.u.items_inventory[i].refine, 0, MAX_REFINE);
-
-		clif_refine( *sd, i, ITEMREFINING_DOWNGRADE );
-		clif_delitem( *sd, i, 1, 3 );
-
-		//Logs items, got from (N)PC scripts [Lupus]
-		log_pick_pc(sd, LOG_TYPE_SCRIPT, 1, &sd->inventory.u.items_inventory[i]);
-
-		clif_additem(sd,i,1,0);
-		pc_equipitem(sd,i,ep);
+		// gaaRO: refino sem rebaixamento. A falha so mostra o efeito/mensagem; o nivel de refino
+		// do item continua igual (o upstream subtraia <count> niveis). 'down' fica sem uso de proposito.
+		(void)down;
+		clif_refine( *sd, i, ITEMREFINING_FAILURE );
 		clif_misceffect( *sd, NOTIFYEFFECT_REFINE_FAILURE );
 		achievement_update_objective(sd, AG_ENCHANT_FAIL, 1, sd->inventory.u.items_inventory[i].refine);
 		script_pushint(st, sd->inventory.u.items_inventory[i].refine);

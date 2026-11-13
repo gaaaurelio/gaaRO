@@ -1,0 +1,24 @@
+//===== gaaRO Script =========================================
+//= Poring Buffer de Payon
+//= Cura HP/SP e aplica buffs por 15 minutos ao clicar:
+//= Aumentar Agilidade, Bencao, Angelus e Kyrie Eleison (nivel 10).
+//= Substitui o Healer#pay do npc/custom/healer.txt (desativado la).
+//= Arquivo gravado em Latin-1 (cp1252), como o cliente exibe dialogos.
+//============================================================
+
+payon,183,105,4	script	Poring Buffer#pay	909,{
+	.@Duration = 15 * 60 * 1000;	// 15 minutos
+	.@Level = 10;
+	specialeffect2 EF_HEAL2;
+	percentheal 100,100;
+	specialeffect2 EF_INCAGILITY;
+	sc_start SC_INCREASEAGI,.@Duration,.@Level;
+	specialeffect2 EF_BLESSING;
+	sc_start SC_BLESSING,.@Duration,.@Level;
+	specialeffect2 EF_ANGELUS;
+	sc_start SC_ANGELUS,.@Duration,.@Level;
+	specialeffect2 EF_KYRIE;
+	sc_start SC_KYRIE,.@Duration,.@Level;
+	message strcharinfo(0), "Poring Buffer: você recebeu Aumentar Agilidade, Bênção, Angelus e Kyrie Eleison por 15 minutos!";
+	end;
+}

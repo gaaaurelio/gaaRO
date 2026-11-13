@@ -769,7 +769,7 @@ function	script	refinemain	{
 			mes "pressa. Pense com calma.";
 			close;
 		}
-		if(getequippercentrefinery(.@part) < 100) {
+		if (0) {	// gaaRO: refino sem quebra, sem aviso de risco
 			mes "["+ .@npc_name$ +"]";
 			mes "Ah, não! Se eu continuar";
 			mes "refinando isto, há risco de ser";
@@ -832,12 +832,12 @@ function	script	refinemain	{
 				mes "Hum, né? Heh heh...";
 			} else if(.@lose == 2) {
 				mes "Nããããão!";
-				mes "Quebrou!";
+				mes "Falhou!";
 				mes "D-desculpe!";
 			} else {
 				mes "Droga!";
-				mes "Não aguentou";
-				mes "mais têmpera!";
+				mes "Não pegou";
+				mes "a têmpera!";
 				mes "Sinto muito por isso...";
 			}
 			close;
@@ -870,9 +870,9 @@ function	script	refinemain	{
 // New Refining Functions ========================
 	if (.@refinerycnt < .@safe) {
 		mes "["+ .@npc_name$ +"]";
-		mes "Posso refinar até o limite seguro ou o número de vezes que você quiser. Você escolhe.";
+		mes "Posso refinar até o nível recomendado ou o número de vezes que você quiser. Você escolhe.";
 		next;
-		.@menu2 = select("Até o limite seguro, por favor.","Eu decido quantas vezes.","Mudei de ideia...");
+		.@menu2 = select("Até o nível recomendado, por favor.","Eu decido quantas vezes.","Mudei de ideia...");
 	} else
 		.@menu2 = 2;
 	switch(.@menu2){
@@ -894,7 +894,7 @@ function	script	refinemain	{
 		if(.@refinecheck > .@safe) {
 			.@refinecheck = .@refinecheck - .@safe;
 			mes "["+ .@npc_name$ +"]";
-			mes "Isto vai tentar refinar o equipamento " + .@refinecheck + " vezes além do limite seguro. Seu equipamento pode ser destruído... tudo bem?";
+			mes "Isto vai tentar refinar o equipamento " + .@refinecheck + " vezes além do nível recomendado. Se falhar, você só perde o minério e o zeny; o equipamento fica intacto. Tudo bem?";
 			next;
 			if(select("Sim...","Não...") == 2){
 				mes "["+ .@npc_name$ +"]";
@@ -933,7 +933,7 @@ function	script	refinemain	{
 		}
 		// anti-hack
 		if (callfunc("F_IsEquipIDHack", .@part, .@refineitemid) || callfunc("F_IsEquipCardHack", .@part, .@card[0], .@card[1], .@card[2], .@card[3]) ||
-				callfunc("F_IsEquipRefineHack", .@part, .@refinerycnt) || (.@menu2 == 1 && getequippercentrefinery(.@part) < 100)) {
+				callfunc("F_IsEquipRefineHack", .@part, .@refinerycnt) || 0) {
 			mes "["+ .@npc_name$ +"]";
 			mes "Clang... Não, mas você achou mesmo que eu seria tão burro?!";
 			mes "Você trocou o item...";
@@ -945,7 +945,7 @@ function	script	refinemain	{
 			failedrefitem .@part;
 			emotion ET_HUK;
 			mes "["+ .@npc_name$ +"]";
-			mes "BUÁÁÁÁ!!! Sinto muito... Eu avisei que isso podia acontecer...";
+			mes "Ahhh!!! Não deu certo... mas seu equipamento está intacto.";
 			.@refinecnt = .@refinecnt - 1;
 			if(.@refinecnt == 0) close;
 			mes "Aqui estão o Zeny e os materiais não usados...";

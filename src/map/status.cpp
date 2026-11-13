@@ -388,6 +388,11 @@ uint64 RefineDatabase::parseBodyNode( const ryml::NodeRef& node ){
 								}
 							}
 
+							// gaaRO: refino sem quebra e sem rebaixamento. Zera depois de ler o banco, pois o
+							// importador do rAthena nao aceita 0 em BreakingRate. Vale para a janela de refino do cliente.
+							cost->breaking_rate = 0;
+							cost->downgrade_amount = 0;
+
 							if( !cost_exists ){
 								level_info->costs[index] = cost;
 							}

@@ -122,7 +122,7 @@
 			mes "This item cannot be refined.";
 			close;
 		}
-		if (getequippercentrefinery(.@part) < 100) {
+		if (0) {	// gaaRO: refino sem quebra, sem aviso de risco
 			mes "[Shadow Blacksmith]";
 			mes "The safety refine level for Shadow Equipment is +4.";
 			if (!.@hoihoi)

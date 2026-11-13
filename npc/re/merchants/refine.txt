@@ -134,7 +134,7 @@ function	script	refinenew	{
 		close;
 	}
 	if (getarg(1) != 1) {
-		if (getequippercentrefinery(.@part) < 100) {
+		if (0) {	// gaaRO: refino sem quebra, sem aviso de risco
 			mes "["+ .@npc_name$ +"]";
 			mes "Este(a) "+.@type$+" já foi refinado(a) várias vezes.";
 			mes "Pode ser destruído(a) se eu tentar de novo.";
@@ -196,7 +196,7 @@ function	script	refinenew	{
 				next;
 				mes "["+ .@npc_name$ +"]";
 				mes "Meu Deus!";
-				mes "O nível de refino caiu...";
+				mes "O refino falhou, mas o equipamento está intacto...";
 			} else {
 				mes "["+ .@npc_name$ +"]";
 				mes "Clang! Clang! Clang!";
@@ -221,9 +221,9 @@ function	script	refinenew	{
 // New +11 and above Refining Functions ========================
 	if (.@refinerycnt < .@safe) {
 		mes "["+ .@npc_name$ +"]";
-		mes "Posso refinar até o limite seguro ou o número de vezes que você quiser. Você escolhe.";
+		mes "Posso refinar até o nível recomendado ou o número de vezes que você quiser. Você escolhe.";
 		next;
-		.@menu2 = select("Até o limite seguro, por favor.","Eu decido quantas vezes.","Mudei de ideia...");
+		.@menu2 = select("Até o nível recomendado, por favor.","Eu decido quantas vezes.","Mudei de ideia...");
 	} else
 		.@menu2 = 2;
 	switch(.@menu2){
@@ -244,7 +244,7 @@ function	script	refinenew	{
 		if (.@refinecheck > .@safe) {
 			.@refinecheck = .@refinecheck - .@safe;
 			mes "["+ .@npc_name$ +"]";
-			mes "Isto vai tentar refinar o equipamento " + .@refinecheck + " vezes além do limite seguro. Seu equipamento pode ser destruído... tudo bem?";
+			mes "Isto vai tentar refinar o equipamento " + .@refinecheck + " vezes além do nível recomendado. Se falhar, você só perde o minério e o zeny; o equipamento fica intacto. Tudo bem?";
 			next;
 			if(select("Sim...","Não...") == 2){
 				mes "["+ .@npc_name$ +"]";
@@ -286,7 +286,7 @@ function	script	refinenew	{
 		    callfunc("F_IsEquipRefineHack", .@part, .@refinerycnt))
 			close;
 
-		if (getequipid(.@part) != .@refineitemid || (.@menu2 == 1 && getequippercentrefinery(.@part) < 100)) {
+		if (getequipid(.@part) != .@refineitemid || 0) {
 			mes "["+ .@npc_name$ +"]";
 			mes "Clang... Não, mas você achou mesmo que eu seria tão burro?!";
 			mes "Você trocou o item...";
@@ -310,7 +310,7 @@ function	script	refinenew	{
 				next;
 				mes "["+ .@npc_name$ +"]";
 				mes "Meu Deus!";
-				mes "O nível de refino caiu...";
+				mes "O refino falhou, mas o equipamento está intacto...";
 			} else {
 				mes "["+ .@npc_name$ +"]";
 				mes "Clang! Clang! Clang!";
@@ -507,7 +507,7 @@ malangdo,224,172,6	script	Clink#mal_normal	544,{
 		mes "Eu sabia que você não valia o meu martelo mágico de refino.";
 		close;
 	}
-	if (getequippercentrefinery(.@part) < 100) {
+	if (0) {	// gaaRO: refino sem quebra, sem aviso de risco
 		mes "[Clink]";
 		mes "Uau!!";
 		mes "Este(a) "+.@type$+" já foi bem refinado(a), hein?";
@@ -562,10 +562,10 @@ malangdo,224,172,6	script	Clink#mal_normal	544,{
 		mes "Hã?! Eu falhei?!";
 		next;
 		mes "[Clink]";
-		mes "Arrgg~ Está tudo~ quebrado...? Que pena~";
+		mes "Arrgg~ Falhou...? Que pena~ Mas seu equipamento está intacto.";
 		next;
 		mes "[Clink]";
-		mes "Ei...!! Me traga outro.";
+		mes "Ei...!! Tente de novo.";
 		mes "Isso não é possível.";
 		mes "Como o meu martelo pode falhar num refino?";
 		close;

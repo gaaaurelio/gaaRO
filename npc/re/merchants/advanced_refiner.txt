@@ -132,7 +132,7 @@ malangdo,221,174,6	script	Holink#mal_cash	559,{
 		mes "You don't believe in refine master Holink, meow?~";
 		close;
 	}
-	if (getequippercentrefinery(.@part, true) < 100) {
+	if (0) {	// gaaRO: refino sem quebra, sem aviso de risco
 		mes "[Holink]";
 		mes "Meow!!";
 		if (.@type$ == "armor")

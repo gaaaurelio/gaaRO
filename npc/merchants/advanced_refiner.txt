@@ -145,7 +145,7 @@ S_RefineValidate:
 	mes "Would you like to continue?";
 	next;
 	if(select("Yes:No") == 1) {
-		if (getequippercentrefinery(.@part) < 100) {
+		if (0) {	// gaaRO: refino sem quebra, sem aviso de risco
 			if (.@itemtype == IT_WEAPON) {
 				mes "[Suhnbi]";
 				mes "Wow!!";
